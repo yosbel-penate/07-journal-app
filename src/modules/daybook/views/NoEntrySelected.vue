@@ -2,7 +2,7 @@
     <div class="d-flex justify-content-center">
         <h1 class="align-self-center">No hay dada seleccionado</h1>
     </div>
-    <FabComponent />
+    <FabComponent  icon="fa-plus" />
 </template>
 
 <script>
