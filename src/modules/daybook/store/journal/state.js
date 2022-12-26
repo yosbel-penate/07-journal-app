@@ -19,5 +19,5 @@ export default () => ({
             text: 'as askjfla assdfsdfja sfofjsldfsdfsdkjoq  sjfoasjdf lasfjal fo aslfjalssdff f fjalskdfjoier fjasdfkl', 
             picture: null,
         },
-    ]
+    ],
 })
