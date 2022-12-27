@@ -31,11 +31,39 @@
 
 <script>
 import { defineAsyncComponent } from 'vue';
+import { getEntryById } from '../store/journal/getters';
+import { mapGetters } from 'vuex';
 
 export default {
-   components:{
-    FabComponent: defineAsyncComponent(()=>import('../components/FabComponent.vue'))
-   }
+    props:{
+        id:{
+            type: String,
+            required: true
+        }
+    },
+    components:{
+        FabComponent: defineAsyncComponent(()=>import('../components/FabComponent.vue'))
+    },
+    data() {
+        return {
+            entry: null,
+        };
+    },
+    computed:{
+        ...mapGetters('journal', [getEntryById])
+    },
+    methods: {
+        loadEntry() {
+            const entry = this.getEntryById(this.id)
+            if (!entry) {
+                this.$router.push({name: 'no-entry'})
+            }
+            this.entry = entry
+        }
+    },
+    created() {
+        this.loadEntry()
+    }
 };
 </script>
 
