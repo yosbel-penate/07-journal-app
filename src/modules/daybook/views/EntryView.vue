@@ -25,7 +25,7 @@
             ></textarea>
         </div>
     </template>
-    <FabComponent/>
+    <FabComponent @on:click="saveEntry"/>
     <img 
         src="@/assets/logo.png" 
         alt="entry-picture"
@@ -34,7 +34,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 import getDayMonthYear from "../helpers/getDayMonthYear";
 
@@ -67,18 +67,31 @@ export default {
             const {yearDay} = getDayMonthYear(this.entry.date)
             return yearDay
         }
-
-
     },
     methods: {
+        ...mapActions('journal', ['updateEntry']),
         loadEntry() {
-            const entry = this.getEntryById(this.id)
+            let entry
 
-            if (!entry) {
-                return this.$router.push({name: 'no-entry'})
+            if (this.id === 'new') {
+                entry = {
+                    text: '',
+                    date: new Date().getTime()
+                }
+            } else {
+                entry = this.getEntryById(this.id)
+                if (!entry) {
+                    return this.$router.push({name: 'no-entry'})
+                }
             }
-            console.log(entry)
             this.entry = entry
+        },
+        async saveEntry(){
+            if (this.entry.id) {
+                await this.updateEntry(this.entry)
+            }else{
+                //crear una nueva entrada
+            }
 
         }
     },
